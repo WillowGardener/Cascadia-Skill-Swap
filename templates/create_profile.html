@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Create Your Profile</h1>
+    <div id="app">
+        <div id="pic">
+
+            <input type="file" accept="image/*" @change="uplaodImage">
+
+        </div>
+
+        <div id="experience">
+            <ul>
+                <li v-for="item in experience_list">
+                    <h3>[[item.resume_organization]] -- [[resume_dates]]</h3>
+                    <h4>[[item.resume_role]]</h4>
+                    <p>[[item.resume_description]]</p>
+                </li>
+            </ul>
+            <div id="add-experience">
+                <input type="text" v-model="new_experience.resume_organization" placeholder="I worked at...">
+                <input type="text" v-model="new_experience.resume_dates" placeholder="from _____ to _____">
+                <input type="text" v-model="new_experience.resume_role" placeholder="my role was...">
+                <input type="text" v-model="new_experience.resume_description" placeholder="What I did there:">
+                <button @click="addExperience">Add an Experience</button>
+            </div>
+
+        </div>
+
+        <div id="skills">
+
+            <div id="to-learn">
+
+                <ul>
+                    <li v-for="item in learn_skill_list">
+                        <h3>[[item.skill_category]]</h3>
+                        <p>[[item.skill_description]</p>
+                    </li>
+                </ul>
+
+                <div id="add-skill">
+                    <select v-model="new_learn_skill.skill_category" id="skill-category">
+                        <option value="automotive">Automotive</option>
+                        <option value="arts">Arts/Entertainment</option>
+                        <option value="carpentry">Carpentry</option>
+                        <option value="metalworking">Metalworking</option>
+                        <option value="fiber-arts">Fiber Arts</option>
+                        <option value="food">Food</option>
+                        <option value="medicine">Medicine</option>
+                        <option value="communication">Communication</option>
+                        <option value="engineering">Engineering</option>
+                        <option value="natural-science">Natural Science</option>
+                        <option value="social-science">Social Science</option>
+                        <option value="sports">Fitness/Sports</option>
+                        <option value="self-defense">Self Defense</option>
+                        <option value="IT">Information Technology</option>
+                        <option value="writing">Writing</option>
+                    </select>
+
+                    <textarea id="skill-description" v-model="new_learn_skill.skill_description">
+
+                    <button @click="addLearnSkill">I want to learn...</button>
+
+                </div>
+
+            </div>
+
+            <div id="to-teach">
+
+                <ul>
+                    <li v-for="item in teach_skill_list">
+                        <h3>[[item.skill_category]]</h3>
+                        <p>[[item.skill_description]</p>
+                    </li>
+                </ul>
+
+                <div id="add-skill">
+                    <select v-model="new_teach_skill.skill_category" name="skill-category">
+                        <option value="automotive">Automotive</option>
+                        <option value="arts">Arts/Entertainment</option>
+                        <option value="carpentry">Carpentry</option>
+                        <option value="metalworking">Metalworking</option>
+                        <option value="fiber-arts">Fiber Arts</option>
+                        <option value="food">Food</option>
+                        <option value="medicine">Medicine</option>
+                        <option value="communication">Communication</option>
+                        <option value="engineering">Engineering</option>
+                        <option value="natural-science">Natural Science</option>
+                        <option value="social-science">Social Science</option>
+                        <option value="sports">Fitness/Sports</option>
+                        <option value="self-defense">Self Defense</option>
+                        <option value="IT">Information Technology</option>
+                        <option value="writing">Writing</option>
+                    </select>
+
+                    <textarea id="skill-description" v-model="new_teach_skill.skill_description">
+    
+                    <button @click="addTeachSkill">I can teach...</button>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock content %}
