@@ -5,21 +5,28 @@ class UserProfile(AbstractUser):
     hometown = models.CharField(max_length=50)
     profile_pic = models.ImageField(upload_to="media/")
 
-    #for user's resume
-    resume_organization = models.CharField(max_length=50)
-    resume_role = models.CharField(max_length=50)
-    resume_dates = models.CharField(max_length=50)
-    resume_description = models.TextField
+class Experience(models.Model):
+    organization = models.CharField(max_length=50)
+    role = models.CharField(max_length=50)
+    dates = models.CharField(max_length=50)
+    description = models.TextField()
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
-    #for user's desired skills and skills to teach
-    skill_category = models.TextField
+class TeachSkill(models.Model):
+    skill_category = models.TextField()
     skill_description = models.CharField(max_length=50)
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
-    #list of user's forum posts
+class LearnSkill(models.Model):
+    skill_category = models.TextField()
+    skill_description = models.CharField(max_length=50)
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+
+class ForumPost(models.Model):
     post_title = models.CharField(max_length=50)
-    post_body = models.TextField
-    post_timestamp = models.DateTimeField
-
+    post_body = models.TextField()
+    post_timestamp = models.DateTimeField()
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     
 
