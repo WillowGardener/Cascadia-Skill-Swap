@@ -104,4 +104,92 @@
 
     </div>
 
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            delimiters: ['[[',']]']
+            data: {
+                learn_skills: [],
+                teach_skills: [],
+                experiences: [],
+                newLearnSkill: {
+                    skill_category: "",
+                    skill_description: "",
+                },
+                newTeachSkill: {
+                    skill_category: "",
+                    skill_description: "",
+                },
+                newExperience: {
+                    organization: "",
+                    role: "",
+                    dates: "",
+                    description: "",
+                },
+                
+            },
+            methods: {
+                loadLearnSkills: function() {
+                    axios({
+                        method: 'get',
+                        url: '/api/v1/learnskills',
+                    }).then(response=> {
+                        this.learn_skills = response.data
+                    })
+                },
+                loadTeachSkills: function() {
+                    axios({
+                        method: 'get',
+                        url: '/api/v1/teachskills',
+                    }).then(response=> {
+                        this.teach_skills = response.data
+                    })
+                },
+                loadExperiences: function() {
+                    axios({
+                        method: 'get',
+                        url: '/api/v1/experiences',
+                    }).then(response=> {
+                        this.experiences = response.data
+                    })
+                },
+                createLearnSkill: function() {
+                    axios({
+                        method: 'post',
+                        url: '/api/v1/learnskills',
+                        data: this.newLearnSkill
+                    }).then(response=> {
+                        this.loadLearnSkills()
+                    })
+                },
+                createTeachSkill: function() {
+                    axios({
+                        method: 'post',
+                        url: '/api/v1/teachskills',
+                        data: this.newTeachSkill
+                    }).then(response=> {
+                        this.loadTeachSkills()
+                    })
+                },
+                createExperience: function() {
+                    axios({
+                        method: 'post',
+                        url: '/api/v1/experiences',
+                        data: this.newExperience
+                    }).then(response=> {
+                        this.loadExperience()
+                    })
+                },
+                
+
+            },
+            mounted: function() {
+                this.loadLearnSkills()
+                this.loadTeachSkills()
+                this.loadExperiences()
+            }
+        })
+
+    </script>
+
 {% endblock content %}
