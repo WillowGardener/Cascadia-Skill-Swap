@@ -3,43 +3,53 @@
 {% block content %}
     <h1>Create Your Profile</h1>
     <div id="app">
-        <div id="pic">
+        <div id="profile">
 
-            <input type="file" accept="image/*" @change="uplaodImage">
+            <label for="upload-pic">Upload a Profile Picture:</label>
+            <input type="file" accept="image/*" @change="uplaodImage" id="upload-pic" v-model="newProfile.picture">
+
+            <label for="hometown">What's your hometown?</label>
+            <input type="text" v-model="newProfile.hometown">
+
+            <label for="email">What's your email address?</label>
+            <input type="text" v-model=newProfile.email">
+
+            <button @click="newProfile">Start your profile</button>
 
         </div>
 
         <div id="experience">
+            <h3>Your Experience</h3>
             <ul>
-                <li v-for="item in experience_list">
-                    <h3>[[item.resume_organization]] -- [[resume_dates]]</h3>
-                    <h4>[[item.resume_role]]</h4>
-                    <p>[[item.resume_description]]</p>
+                <li v-for="item in experiences">
+                    <h3>[[item.organization]] -- [[item.dates]]</h3>
+                    <h4>[[item.role]]</h4>
+                    <p>[[item.description]]</p>
                 </li>
             </ul>
             <div id="add-experience">
-                <input type="text" v-model="new_experience.resume_organization" placeholder="I worked at...">
-                <input type="text" v-model="new_experience.resume_dates" placeholder="from _____ to _____">
-                <input type="text" v-model="new_experience.resume_role" placeholder="my role was...">
-                <input type="text" v-model="new_experience.resume_description" placeholder="What I did there:">
-                <button @click="addExperience">Add an Experience</button>
+                <input type="text" v-model="newExperience.organization" placeholder="I worked at...">
+                <input type="text" v-model="newExperience.dates" placeholder="from _____ to _____">
+                <input type="text" v-model="newExperience.role" placeholder="my role was...">
+                <input type="text" v-model="newExperience.description" placeholder="What I did there:">
+                <button @click="newExperience">Add an Experience</button>
             </div>
 
         </div>
 
         <div id="skills">
-
+            <h3>What do you want to learn?</h3>
             <div id="to-learn">
 
                 <ul>
-                    <li v-for="item in learn_skill_list">
+                    <li v-for="item in learn_skills">
                         <h3>[[item.skill_category]]</h3>
-                        <p>[[item.skill_description]</p>
+                        <p>[[item.skill_description]]</p>
                     </li>
                 </ul>
 
-                <div id="add-skill">
-                    <select v-model="new_learn_skill.skill_category" id="skill-category">
+                <div id="new-skill">
+                    <select v-model="newLearnSkill.skill_category" id="skill-category">
                         <option value="automotive">Automotive</option>
                         <option value="arts">Arts/Entertainment</option>
                         <option value="carpentry">Carpentry</option>
@@ -57,25 +67,25 @@
                         <option value="writing">Writing</option>
                     </select>
 
-                    <textarea id="skill-description" v-model="new_learn_skill.skill_description">
+                    <textarea id="skill-description" v-model="newLearnSkill.skill_description"></textarea>
 
-                    <button @click="addLearnSkill">I want to learn...</button>
+                    <button @click="newLearnSkill">I want to learn...</button>
 
                 </div>
 
             </div>
 
             <div id="to-teach">
-
+                <h3>What can you teach?</h3>
                 <ul>
-                    <li v-for="item in teach_skill_list">
+                    <li v-for="item in teach_skills">
                         <h3>[[item.skill_category]]</h3>
                         <p>[[item.skill_description]</p>
                     </li>
                 </ul>
 
-                <div id="add-skill">
-                    <select v-model="new_teach_skill.skill_category" name="skill-category">
+                <div id="new-skill">
+                    <select v-model="newTeachSkill.skill_category" name="skill-category">
                         <option value="automotive">Automotive</option>
                         <option value="arts">Arts/Entertainment</option>
                         <option value="carpentry">Carpentry</option>
@@ -93,9 +103,9 @@
                         <option value="writing">Writing</option>
                     </select>
 
-                    <textarea id="skill-description" v-model="new_teach_skill.skill_description">
+                    <textarea id="skill-description" v-model="newTeachSkill.skill_description"></textarea>
     
-                    <button @click="addTeachSkill">I can teach...</button>
+                    <button @click="newTeachSkill">I can teach...</button>
 
                 </div>
             </div>
@@ -109,9 +119,16 @@
             el: '#app',
             delimiters: ['[[',']]']
             data: {
+                profile: null,
                 learn_skills: [],
                 teach_skills: [],
                 experiences: [],
+                forum_posts: [],
+                newProfile: {
+                    hometown: "",
+                    picture: null,
+                    email: "",
+                },
                 newLearnSkill: {
                     skill_category: "",
                     skill_description: "",
@@ -129,6 +146,14 @@
                 
             },
             methods: {
+                loadProfile: function() {
+                    axios({
+                        method: 'get',
+                        url: '/api/v1/userprofile',
+                    }).then(response=> {
+                        this.profile = response.data
+                    })
+                },
                 loadLearnSkills: function() {
                     axios({
                         method: 'get',
@@ -153,7 +178,23 @@
                         this.experiences = response.data
                     })
                 },
-                createLearnSkill: function() {
+                loadForumPosts: function() {
+                    axios({
+                        method: 'get',
+                        url: '/api/v1/forumposts',
+                    }).then(response=> {
+                        this.forum_posts = response.data
+                    })
+                },
+                newProfile: function() {
+                    axios({
+                        method: 'post',
+                        url: '/api/v1/userprofiles',
+                    }).then(response=> {
+                        this.LoadProfile()
+                    })
+                }
+                newLearnSkill: function() {
                     axios({
                         method: 'post',
                         url: '/api/v1/learnskills',
@@ -162,7 +203,7 @@
                         this.loadLearnSkills()
                     })
                 },
-                createTeachSkill: function() {
+                newTeachSkill: function() {
                     axios({
                         method: 'post',
                         url: '/api/v1/teachskills',
@@ -171,7 +212,7 @@
                         this.loadTeachSkills()
                     })
                 },
-                createExperience: function() {
+                newExperience: function() {
                     axios({
                         method: 'post',
                         url: '/api/v1/experiences',
