@@ -5,14 +5,14 @@
     <div id="app">
         <div id="profile">
 
-            <label for="upload-pic">Upload a Profile Picture:</label>
-            <input type="file" accept="image/*" @change="uplaodImage" id="upload-pic" v-model="newProfile.picture">
+            <label v-for="upload-pic">Upload a Profile Picture:</label>
+            <input type="file" accept="image/*" @change="uploadImage" id="upload-pic" v-model="newProfile.picture">
 
-            <label for="hometown">What's your hometown?</label>
+            <label v-for="hometown">What's your hometown?</label>
             <input type="text" v-model="newProfile.hometown">
 
-            <label for="email">What's your email address?</label>
-            <input type="text" v-model=newProfile.email">
+            <label v-for="email">What's your email address?</label>
+            <input type="text" v-model="newProfile.email">
 
             <button @click="newProfile">Start your profile</button>
 
@@ -114,10 +114,12 @@
 
     </div>
 
+    {% endblock content %}
+
     <script>
         let vm = new Vue({
             el: '#app',
-            delimiters: ['[[',']]']
+            delimiters: ['[[',']]'],
             data: {
                 profile: null,
                 learn_skills: [],
@@ -176,6 +178,7 @@
                         url: '/api/v1/experiences',
                     }).then(response=> {
                         this.experiences = response.data
+                        console.log(response.data)
                     })
                 },
                 loadForumPosts: function() {
@@ -193,7 +196,7 @@
                     }).then(response=> {
                         this.LoadProfile()
                     })
-                }
+                },
                 newLearnSkill: function() {
                     axios({
                         method: 'post',
@@ -233,4 +236,3 @@
 
     </script>
 
-{% endblock content %}
