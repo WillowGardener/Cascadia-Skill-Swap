@@ -8,3 +8,7 @@ class CreateProfile(CreateView):
     success_url = reverse_lazy('user_profile.html')
     template_name = 'create_profile.html'
     
+class SignUpView(CreateView):
+    form_class = UserProfileCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'signup.html'

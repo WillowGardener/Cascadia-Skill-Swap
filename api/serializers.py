@@ -56,6 +56,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
     forum_posts = NestedForumPostSerializer(read_only=True, many=True)
     class Meta:        
         model = models.UserProfile
-        fields = ['id','hometown','profile_pic','experiences','teach_skills','learn_skills','forum_posts','experience_set', 'teachskill_set', 'learnskill_set']
+        fields = ['id', 'username','hometown','profile_pic','experiences','teach_skills','learn_skills','forum_posts','experience_set', 'teachskill_set', 'learnskill_set']
 
 

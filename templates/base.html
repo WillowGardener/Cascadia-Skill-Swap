@@ -7,11 +7,13 @@
         <title>Cascadia Skill Swap</title>
     </head>
     <body>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://unpkg.com/vue"></script>
+        {% csrf_token %}
         <div>
             {% block content %}
             {% endblock content %}
         </div>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <script src="https://unpkg.com/vue"></script>
+        
     </body>
 </html>

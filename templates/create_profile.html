@@ -1,20 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    {{ user }}
     <h1>Create Your Profile</h1>
     <div id="app">
         <div id="profile">
 
-            <label v-for="upload-pic">Upload a Profile Picture:</label>
-            <input type="file" accept="image/*" @change="uploadImage" id="upload-pic" v-model="newProfile.picture">
+            <label for="upload-pic">Upload a Profile Picture:</label>
+            <input type="file" accept="image/*" @change="uploadImage" id="upload-pic">
 
-            <label v-for="hometown">What's your hometown?</label>
+            <label for="hometown">What's your hometown?</label>
             <input type="text" v-model="newProfile.hometown">
 
-            <label v-for="email">What's your email address?</label>
+            <label for="email">What's your email address?</label>
             <input type="text" v-model="newProfile.email">
 
-            <button @click="newProfile">Start your profile</button>
+            <button @click="createProfile">Start your profile</button>
 
         </div>
 
@@ -32,7 +33,7 @@
                 <input type="text" v-model="newExperience.dates" placeholder="from _____ to _____">
                 <input type="text" v-model="newExperience.role" placeholder="my role was...">
                 <input type="text" v-model="newExperience.description" placeholder="What I did there:">
-                <button @click="newExperience">Add an Experience</button>
+                <button @click="createExperience">Add an Experience</button>
             </div>
 
         </div>
@@ -56,6 +57,7 @@
                         <option value="metalworking">Metalworking</option>
                         <option value="fiber-arts">Fiber Arts</option>
                         <option value="food">Food</option>
+                        <option value="forestry">Forestry</option>
                         <option value="medicine">Medicine</option>
                         <option value="communication">Communication</option>
                         <option value="engineering">Engineering</option>
@@ -69,7 +71,7 @@
 
                     <textarea id="skill-description" v-model="newLearnSkill.skill_description"></textarea>
 
-                    <button @click="newLearnSkill">I want to learn...</button>
+                    <button @click="createLearnSkill">I want to learn...</button>
 
                 </div>
 
@@ -92,6 +94,7 @@
                         <option value="metalworking">Metalworking</option>
                         <option value="fiber-arts">Fiber Arts</option>
                         <option value="food">Food</option>
+                        <option value="forestry">Forestry</option>
                         <option value="medicine">Medicine</option>
                         <option value="communication">Communication</option>
                         <option value="engineering">Engineering</option>
@@ -105,7 +108,7 @@
 
                     <textarea id="skill-description" v-model="newTeachSkill.skill_description"></textarea>
     
-                    <button @click="newTeachSkill">I can teach...</button>
+                    <button @click="createTeachSkill">I can teach...</button>
 
                 </div>
             </div>
@@ -151,15 +154,18 @@
                 loadProfile: function() {
                     axios({
                         method: 'get',
-                        url: '/api/v1/userprofile',
+                        url: '/api/v1/userprofile/',
                     }).then(response=> {
                         this.profile = response.data
                     })
                 },
+                uploadImage: function() {
+                    
+                },
                 loadLearnSkills: function() {
                     axios({
                         method: 'get',
-                        url: '/api/v1/learnskills',
+                        url: '/api/v1/learnskills/',
                     }).then(response=> {
                         this.learn_skills = response.data
                     })
@@ -167,7 +173,7 @@
                 loadTeachSkills: function() {
                     axios({
                         method: 'get',
-                        url: '/api/v1/teachskills',
+                        url: '/api/v1/teachskills/',
                     }).then(response=> {
                         this.teach_skills = response.data
                     })
@@ -175,7 +181,7 @@
                 loadExperiences: function() {
                     axios({
                         method: 'get',
-                        url: '/api/v1/experiences',
+                        url: '/api/v1/experiences/',
                     }).then(response=> {
                         this.experiences = response.data
                         console.log(response.data)
@@ -184,41 +190,41 @@
                 loadForumPosts: function() {
                     axios({
                         method: 'get',
-                        url: '/api/v1/forumposts',
+                        url: '/api/v1/forumposts/',
                     }).then(response=> {
                         this.forum_posts = response.data
                     })
                 },
-                newProfile: function() {
+                createProfile: function() {
                     axios({
                         method: 'post',
-                        url: '/api/v1/userprofiles',
+                        url: '/api/v1/userprofiles/',
                     }).then(response=> {
                         this.LoadProfile()
                     })
                 },
-                newLearnSkill: function() {
+                createLearnSkill: function() {
                     axios({
                         method: 'post',
-                        url: '/api/v1/learnskills',
+                        url: '/api/v1/learnskills/',
                         data: this.newLearnSkill
                     }).then(response=> {
                         this.loadLearnSkills()
                     })
                 },
-                newTeachSkill: function() {
+                createTeachSkill: function() {
                     axios({
                         method: 'post',
-                        url: '/api/v1/teachskills',
+                        url: '/api/v1/teachskills/',
                         data: this.newTeachSkill
                     }).then(response=> {
                         this.loadTeachSkills()
                     })
                 },
-                newExperience: function() {
+                createExperience: function() {
                     axios({
                         method: 'post',
-                        url: '/api/v1/experiences',
+                        url: '/api/v1/experiences/',
                         data: this.newExperience
                     }).then(response=> {
                         this.loadExperience()

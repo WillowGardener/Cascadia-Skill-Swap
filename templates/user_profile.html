@@ -1,0 +1,264 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {{ request.user }}
+    <h1>Create Your Profile</h1>
+    <div id="app">
+        <div id="profile">
+
+            {% comment %} <label for="upload-pic">Upload a Profile Picture:</label>
+            <input type="file" accept="image/*" @change="uploadImage" id="upload-pic"> {% endcomment %}
+
+            {% comment %} <label for="hometown">What's your hometown?</label>
+            <input type="text" v-model="newProfile.hometown">
+
+            <label for="email">What's your email address?</label>
+            <input type="text" v-model="newProfile.email"> {% endcomment %}
+
+            {% comment %} <button @click="createProfile">Start your profile</button> {% endcomment %}
+
+        </div>
+
+        <div id="experience">
+            <h3>Your Experience</h3>
+            <ul>
+                <li v-for="item in experiences">
+                    <h3>[[item.organization]] -- [[item.dates]]</h3>
+                    <h4>[[item.role]]</h4>
+                    <p>[[item.description]]</p>
+                </li>
+            </ul>
+            <div id="add-experience">
+                <input type="text" v-model="newExperience.organization" placeholder="I worked at...">
+                <input type="text" v-model="newExperience.dates" placeholder="from _____ to _____">
+                <input type="text" v-model="newExperience.role" placeholder="my role was...">
+                <input type="text" v-model="newExperience.description" placeholder="What I did there:">
+                <button @click="createExperience">Add an Experience</button>
+            </div>
+
+        </div>
+
+        <div id="skills">
+            <h3>What do you want to learn?</h3>
+            <div id="to-learn">
+
+                <ul>
+                    <li v-for="item in learn_skills">
+                        <h3>[[item.skill_category]]</h3>
+                        <p>[[item.skill_description]]</p>
+                    </li>
+                </ul>
+
+                <div id="new-skill">
+                    <select v-model="newLearnSkill.skill_category" id="skill-category">
+                        <option value="automotive">Automotive</option>
+                        <option value="arts">Arts/Entertainment</option>
+                        <option value="carpentry">Carpentry</option>
+                        <option value="metalworking">Metalworking</option>
+                        <option value="fiber-arts">Fiber Arts</option>
+                        <option value="food">Food</option>
+                        <option value="forestry">Forestry</option>
+                        <option value="medicine">Medicine</option>
+                        <option value="communication">Communication</option>
+                        <option value="engineering">Engineering</option>
+                        <option value="natural-science">Natural Science</option>
+                        <option value="social-science">Social Science</option>
+                        <option value="sports">Fitness/Sports</option>
+                        <option value="self-defense">Self Defense</option>
+                        <option value="IT">Information Technology</option>
+                        <option value="writing">Writing</option>
+                    </select>
+
+                    <textarea id="skill-description" v-model="newLearnSkill.skill_description"></textarea>
+
+                    <button @click="createLearnSkill">I want to learn...</button>
+
+                </div>
+
+            </div>
+
+            <div id="to-teach">
+                <h3>What can you teach?</h3>
+                <ul>
+                    <li v-for="item in teach_skills">
+                        <h3>[[item.skill_category]]</h3>
+                        <p>[[item.skill_description]]</p>
+                    </li>
+                </ul>
+
+                <div id="new-skill">
+                    <select v-model="newTeachSkill.skill_category" name="skill-category">
+                        <option value="automotive">Automotive</option>
+                        <option value="arts">Arts/Entertainment</option>
+                        <option value="carpentry">Carpentry</option>
+                        <option value="metalworking">Metalworking</option>
+                        <option value="fiber-arts">Fiber Arts</option>
+                        <option value="food">Food</option>
+                        <option value="forestry">Forestry</option>
+                        <option value="medicine">Medicine</option>
+                        <option value="communication">Communication</option>
+                        <option value="engineering">Engineering</option>
+                        <option value="natural-science">Natural Science</option>
+                        <option value="social-science">Social Science</option>
+                        <option value="sports">Fitness/Sports</option>
+                        <option value="self-defense">Self Defense</option>
+                        <option value="IT">Information Technology</option>
+                        <option value="writing">Writing</option>
+                    </select>
+
+                    <textarea id="skill-description" v-model="newTeachSkill.skill_description"></textarea>
+    
+                    <button @click="createTeachSkill">I can teach...</button>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    
+
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            delimiters: ['[[',']]'],
+            data: {
+                csrf_token: "",
+                profile: null,
+                learn_skills: [],
+                teach_skills: [],
+                experiences: [],
+                forum_posts: [],
+                newProfile: {
+                    hometown: "",
+                    picture: null,
+                    email: "",
+                },
+                newLearnSkill: {
+                    skill_category: "",
+                    skill_description: "",
+                    
+                },
+                newTeachSkill: {
+                    skill_category: "",
+                    skill_description: "",
+                },
+                newExperience: {
+                    organization: "",
+                    role: "",
+                    dates: "",
+                    description: "",
+                },
+                
+            },
+            methods: {
+                
+                loadProfile: function() {
+                    axios({
+                        method: 'get',
+                        url: '/api/v1/user-profile/',
+                    }).then(response=> {
+                        this.profile = response.data
+                    })
+                },
+                uploadImage: function() {
+                    
+                },
+                loadLearnSkills: function() {
+                    axios({
+                        method: 'get',
+                        url: '/api/v1/learnskills/',
+                    }).then(response=> {
+                        this.learn_skills = response.data
+                    })
+                },
+                loadTeachSkills: function() {
+                    axios({
+                        method: 'get',
+                        url: '/api/v1/teachskills/',
+                    }).then(response=> {
+                        this.teach_skills = response.data
+                    })
+                },
+                loadExperiences: function() {
+                    axios({
+                        method: 'get',
+                        url: '/api/v1/experiences/',
+                    }).then(response=> {
+                        this.experiences = response.data
+                        console.log(response.data)
+                    })
+                },
+                loadForumPosts: function() {
+                    axios({
+                        method: 'get',
+                        url: '/api/v1/forumposts/',
+                    }).then(response=> {
+                        this.forum_posts = response.data
+                    })
+                },
+                createProfile: function() {
+                    axios({
+                        method: 'post',
+                        url: '/api/v1/userprofiles/',
+                        headers: {
+                        'X-CSRFToken': this.csrf_token
+                        },
+                    }).then(response=> {
+                        this.LoadProfile()
+                    })
+                },
+                createLearnSkill: function() {
+                    axios({
+                        method: 'post',
+                        url: '/api/v1/learnskills/',
+                        headers: {
+                        'X-CSRFToken': this.csrf_token
+                        },
+                        data: Object.assign(this.newLearnSkill, {user_profile: [this.profile.id]}),
+
+                    }).then(response=> {
+                        this.loadLearnSkills()
+                    })
+                },
+                createTeachSkill: function() {
+                    axios({
+                        method: 'post',
+                        url: '/api/v1/teachskills/',
+                        headers: {
+                        'X-CSRFToken': this.csrf_token
+                        },
+                        
+                        data: Object.assign(this.newTeachSkill, {user_profile: [this.profile.id]}),
+                    }).then(response=> {
+                        this.loadTeachSkills()
+                    })
+                },
+                createExperience: function() {
+                    axios({
+                        method: 'post',
+                        url: '/api/v1/experiences/',
+                        headers: {
+                        'X-CSRFToken': this.csrf_token
+                        },
+                        data: Object.assign(this.newExperience, {author: this.profile.id}),
+                    }).then(response=> {
+                        this.loadExperiences()
+                    })
+                },
+                
+
+            },
+            mounted: function() {
+                this.loadProfile()
+                this.csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+                this.loadLearnSkills()
+                this.loadTeachSkills()
+                this.loadExperiences()
+            }
+        })
+
+    </script>
+
+{% endblock content %}

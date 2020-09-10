@@ -1,13 +1,24 @@
 from django.shortcuts import render
 
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 
 from user.models import UserProfile, Experience, TeachSkill, LearnSkill, ForumPost
 from .serializers import UserProfileSerializer, ExperienceSerializer, TeachSkillSerializer, LearnSkillSerializer, ForumPostSerializer
 
-class UserProfileViewSet(viewsets.ModelViewSet):
+# class UserProfileViewSet(viewsets.ModelViewSet):
+#     queryset = UserProfile.objects.all()
+#     serializer_class = UserProfileSerializer
+
+class UserProfileList(generics.ListAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
+
+class UserProfileDetail(generics.RetrieveUpdateAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    def get_object(self):
+        print(self.request.user)
+        return self.request.user
 
 class ExperienceViewSet(viewsets.ModelViewSet):
     queryset = Experience.objects.all()

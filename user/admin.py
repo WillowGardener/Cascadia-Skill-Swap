@@ -9,7 +9,7 @@ class UserProfileAdmin(UserAdmin):
     add_form = UserProfileCreationForm
     form = UserProfileChangeForm
     model = UserProfile
-    list_display = ['hometown','profile_pic','experiences','teach_skills','learn_skills','forum_posts']
+    list_display = ['hometown','username','profile_pic','experiences','teach_skills','learn_skills','forum_posts']
 
 admin.site.register(UserProfile)
 
