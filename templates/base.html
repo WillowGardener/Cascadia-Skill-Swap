@@ -11,8 +11,17 @@
         
     </head>
     <body>
+        
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="https://unpkg.com/vue"></script>
+
+        <header>
+            <h1>Skill Swap</h1>
+            <h3>A place to form self-reliant communities</h3>
+            <h3> <a href="/user/profile/">My Profile </a> | <a href=""> Home </a> | <a href="/user/search/"> Search </a> </h3>
+
+        </header>
+
         {% csrf_token %}
         <div>
             {% block content %}
