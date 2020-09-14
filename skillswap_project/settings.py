@@ -43,13 +43,16 @@ INSTALLED_APPS = [
 
     'user.apps.UserConfig',
     'api.apps.ApiConfig',
+
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ]
+        'rest_framework.permissions.AllowAny'
+    ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

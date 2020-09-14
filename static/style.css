@@ -9,10 +9,15 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #0F228C;
+    
+    font-family: 'PT Sans', sans-serif;
     background-image: linear-gradient(#175973,#49B1F2);
+    background-repeat: no-repeat;
+    background-size: 100%;
+
     align-items: center;
 }
+
 
 header {
     width: 100%;
@@ -43,9 +48,19 @@ header a {
     
 }
 
-img {
-    border-radius: 5px;
+#intro {
+    margin: 20px;
+    padding: 20px;
+    background-color: #E1EAEF;
+    background-image: url("https://c1.staticflickr.com/9/8012/7277617204_010211c5b5_b.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 20px;
+    color: #322F2C;
+    font-size: 1.5em
 }
+
 
 #profile {
     display: flex;
@@ -54,7 +69,8 @@ img {
     margin: 10px;
     padding: 10px;
     background-color: #E1EAEF;
-    border-radius: 10px;
+    border-radius: 20px;
+    
 }
 
 #profile h2 {
@@ -63,21 +79,29 @@ img {
 }
 
 #profile img {
-    width: auto;
+    width: 80%;
+    object-fit: contain;
+    display: flex;
+    align-self: center;
+    border-radius: 20px;
+    border: 3px solid #322F2C;
+    
 }
 
 #experience {
     margin: 10px;
     padding: 10px;
     background-color: #E1EAEF;
-    border-radius: 10px;
+    border-radius: 20px;
+    
 }
 
 #skills {
     margin: 10px;
     padding: 10px;
     background-color: #E1EAEF;
-    border-radius: 10px;
+    border-radius: 20px;
+    
 }
 
 #new-experience {

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} -- Search{% endblock %}
+
+{% block content %}
+
+    <div id="app">
+        <div class= "searchbar">
+            <select v-model="searchCategory">
+                <option value="" selected>Please select...</option>
+                <option value="userprofiles">Hometown</option>
+                <option value="learnskills">Skills to Learn</option>
+                <option value="teachskills">Skills to Teach</option>
+                <option value="experiences">Resume</option>
+            </select>
+            <input type="text" v-model = "searchData">
+            <button @click= "searchUsers">Search</button>
+
+        </div>
+
+        <div v-if = "experienceMatches.length">
+            <ul>
+                <li v-for="profile in experienceMatches">
+                    <h3>[[profile.username.username]]</h3>
+                    
+                </li>
+            </ul> 
+        </div>
+
+         <div v-if = "skillMatches.length">
+            <ul v-for = "match in skillMatches">
+                <li v-for="profile in match.username">
+                    <h3>[[profile.username]]</h3>
+                    
+                </li>
+            </ul> 
+        </div>
+
+         <div v-if = "userMatches.length">
+            <ul>
+                <li v-for="profile in userMatches">
+                    <h3>[[profile.username]]</h3>
+                    
+                </li>
+            </ul> 
+        </div>
+
+    </div>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            delimiters: ['[[',']]'],
+            data: {
+                searchData: "",
+                searchCategory: "",
+                userMatches: [],
+                experienceMatches: [],
+                skillMatches: []
+            },
+            methods: {
+                searchUsers: function() {
+                    let searchCategory = this.searchCategory
+                    axios({
+                        method: 'get',
+                        url: `/api/v1/${searchCategory}/?search=${this.searchData}`,
+                    }).then(response=> {
+                        if (searchCategory === "userprofiles") {
+                            this.userMatches = response.data
+                            this.experienceMatches = []
+                            this.skillMatches = []
+                        }
+                        else if (searchCategory === "experiences") {
+                            this.experienceMatches = response.data
+                            this.userMatches = []
+                            this.skillMatches = []
+                        }
+                        else {
+                            this.skillMatches = response.data
+                            this.experienceMatches = []
+                            this.userMatches = []
+                        }
+                    })
+                }
+            }
+
+        })
+
+    </script>
+
+{% endblock content %}

@@ -30,8 +30,8 @@
 
         <div id="experience">
             <h3>Your Experience</h3>
-            <ul>
-                <li v-for="item in experiences">
+            <ul v-if="Object.keys(profile).length">
+                <li v-for="item in profile.experiences">
                     <h3>[[item.organization]] -- [[item.dates]]</h3>
                     <h4>[[item.role]]</h4>
                     <p>[[item.description]]</p>
@@ -53,7 +53,7 @@
             <h3>What do you want to learn?</h3>
 
                 <ul>
-                    <li v-for="item in learn_skills">
+                    <li v-for="item in profile.learn_skills">
                         <h3>[[item.skill_category]]</h3>
                         <p>[[item.skill_description]]</p>
                     </li>
@@ -90,7 +90,7 @@
             <div id="to-teach">
                 <h3>What can you teach?</h3>
                 <ul>
-                    <li v-for="item in teach_skills">
+                    <li v-for="item in profile.teach_skills">
                         <h3>[[item.skill_category]]</h3>
                         <p>[[item.skill_description]]</p>
                     </li>
@@ -135,7 +135,7 @@
             delimiters: ['[[',']]'],
             data: {
                 csrf_token: "",
-                profile: null,
+                profile: {},
                 learn_skills: [],
                 teach_skills: [],
                 experiences: [],
@@ -167,7 +167,7 @@
                 loadProfile: function() {
                     axios({
                         method: 'get',
-                        url: '/api/v1/user-profile/',
+                        url: `/api/v1/user-profile/`,
                     }).then(response=> {
                         this.profile = response.data
                     })
@@ -197,7 +197,7 @@
                         url: '/api/v1/experiences/',
                     }).then(response=> {
                         this.experiences = response.data
-                        console.log(response.data)
+                        
                     })
                 },
                 loadForumPosts: function() {
@@ -230,6 +230,7 @@
 
                     }).then(response=> {
                         this.loadLearnSkills()
+                        this.loadProfile()
                     })
                 },
                 createTeachSkill: function() {
@@ -243,6 +244,7 @@
                         data: Object.assign(this.newTeachSkill, {user_profile: [this.profile.id]}),
                     }).then(response=> {
                         this.loadTeachSkills()
+                        this.loadProfile()
                     })
                 },
                 createExperience: function() {
@@ -255,6 +257,7 @@
                         data: Object.assign(this.newExperience, {author: this.profile.id}),
                     }).then(response=> {
                         this.loadExperiences()
+                        this.loadProfile()
                     })
                 },
                 

@@ -8,10 +8,16 @@ from user import models
 #         model = models.Author
 #         fields = ['author']
 
+class NestedUserProfileSerializer(serializers.ModelSerializer):
+    class Meta:        
+        model = models.UserProfile
+        fields = ['id', 'username']
+
 class ExperienceSerializer(serializers.ModelSerializer):
+    username = NestedUserProfileSerializer(read_only=True, source = 'author')
     class Meta:
         model = models.Experience
-        fields = ['organization','role','dates','description', 'author']
+        fields = ['organization','role','dates','description', 'author','username']
 
 class NestedExperienceSerializer(serializers.ModelSerializer):
     # author = AuthorSerializer(read_only=True, many=True)
@@ -20,14 +26,16 @@ class NestedExperienceSerializer(serializers.ModelSerializer):
         fields = ['organization','role','dates','description']
 
 class LearnSkillSerializer(serializers.ModelSerializer):
+    username = NestedUserProfileSerializer(read_only=True, many=True, source = 'user_profile')
     class Meta:
         model = models.LearnSkill 
-        fields = ['skill_category','skill_description', 'user_profile']
+        fields = ['skill_category','skill_description', 'user_profile', 'username']
 
 class TeachSkillSerializer(serializers.ModelSerializer):
+    username = NestedUserProfileSerializer(read_only=True, many=True, source = 'user_profile')
     class Meta:
         model = models.TeachSkill 
-        fields = ['skill_category','skill_description', 'user_profile']
+        fields = ['skill_category','skill_description', 'user_profile','username']
 
 class NestedLearnSkillSerializer(serializers.ModelSerializer):
     class Meta:

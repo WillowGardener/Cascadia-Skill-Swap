@@ -1,14 +1,21 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Cascadia Skill Swap{% endblock %}
+
 
 {% block content %}
-    {% if user.is_authenticated %}
-        Hi there, {{ user.username }}!
-        <p><a href="{% url 'logout' %}">logout</a></p>
-    {% else %}
-        <p>You are not logged in</p>
-        <a href="{% url 'login' %}">login</a> |
-        <a href="{% url 'signup' %}">signup</a>
-    {% endif %}
+    <div id="intro">
+        <p>
+            Americans are increasingly isolated, lacking resilient communities to provide a sense of belonging and to provide for them in times of crisis. With crisis on the horizon, 
+            Cascadia Skill Swap seeks to bring people together to teach each other practical skills in the hopes of fostering communities that are able to support each other when their 
+            members are suffering.
+
+            <br><br>
+
+            Cascadia Skill Swap operates on a handshake agreement: for every hour someone spends teaching you a skill, you spend an hour teaching them a skill. Every skill is valued equally,
+            whether it's felting or archery or gardening.
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </p>
+    </div>
 {% endblock %}
