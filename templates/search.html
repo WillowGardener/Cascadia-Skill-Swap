@@ -22,7 +22,7 @@
         <div v-if = "experienceMatches.length">
             <ul>
                 <li v-for="profile in experienceMatches">
-                    <h3>[[profile.username.username]]</h3>
+                   <a href="{% url 'user:detail' profile.pk %}"> <h3>[[profile.username.username]]</h3> </a>
                     
                 </li>
             </ul> 

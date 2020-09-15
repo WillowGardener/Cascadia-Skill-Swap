@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} -- Profile{% endblock %}
+
+{% block content %}
+
+    <div id="app">
+
+        <div id="profile">
+            <h2>{{ request.user }}</h2>
+            
+
+            <img src="https://mbtipopculture.files.wordpress.com/2012/08/aragorn.jpeg" alt="a picture of me"><br>
+
+            <p>Hometown: {{ request.user.hometown }}<p>
+
+            <p>Email address: {{ request.user.email }} <p>           
+
+        </div>
+
+        <div id="experience">
+            <h3>Your Experience</h3>
+            <ul v-if="Object.keys(profile).length">
+                <li v-for="item in profile.experiences">
+                    <h3>[[item.organization]] -- [[item.dates]]</h3>
+                    <h4>[[item.role]]</h4>
+                    <p>[[item.description]]</p>
+                </li>
+            </ul>
+            
+        </div>
+
+        <div id="skills">
+            
+            <div id="to-learn">
+                <h3>Wants to learn:</h3>
+                <ul>
+                    <li v-for="item in profile.learn_skills">
+                        <h3>[[item.skill_category]]</h3>
+                        <p>[[item.skill_description]]</p>
+                    </li>
+                </ul>
+
+
+            </div>
+
+            <div id="to-teach">
+                <h3>Can Teach:</h3>
+                <ul>
+                    <li v-for="item in profile.teach_skills">
+                        <h3>[[item.skill_category]]</h3>
+                        <p>[[item.skill_description]]</p>
+                    </li>
+                </ul>
+
+                
+            </div>
+
+        </div>
+
+        <script>
+        let vm = new Vue({
+            el: '#app',
+            delimiters: ['[[',']]'],
+            data: {
+                profile: {},
+                learn_skills: [],
+                teach_skills: [],
+                experiences: [],
+                forum_posts: [],                                
+            },
+            methods: {
+                
+                loadProfile: function() {
+                    axios({
+                        method: 'get',
+                        url: `/api/v1/userprofiles/{{int:pk}}`,
+                    }).then(response=> {
+                        this.profile = response.data
+                    })
+                },
+                loadLearnSkills: function() {
+                    axios({
+                        method: 'get',
+                        url: '/api/v1/learnskills/',
+                    }).then(response=> {
+                        this.learn_skills = response.data
+                    })
+                },
+                loadTeachSkills: function() {
+                    axios({
+                        method: 'get',
+                        url: '/api/v1/teachskills/',
+                    }).then(response=> {
+                        this.teach_skills = response.data
+                    })
+                },
+                loadExperiences: function() {
+                    axios({
+                        method: 'get',
+                        url: '/api/v1/experiences/',
+                    }).then(response=> {
+                        this.experiences = response.data
+                        
+                    })
+                },
+                loadForumPosts: function() {
+                    axios({
+                        method: 'get',
+                        url: '/api/v1/forumposts/',
+                    }).then(response=> {
+                        this.forum_posts = response.data
+                    })
+                },
+                
+                
+
+            },
+            mounted: function() {
+                this.loadProfile()
+                this.csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+                this.loadLearnSkills()
+                this.loadTeachSkills()
+                this.loadExperiences()
+            }
+        })
+
+    </script>
+
+    </div>
+
+{% endblock content %}

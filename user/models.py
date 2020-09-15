@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.urls import reverse
 
 
 class UserProfile(AbstractUser):
@@ -7,6 +8,9 @@ class UserProfile(AbstractUser):
     profile_pic = models.ImageField(upload_to="media/")
     class Meta:
         verbose_name = 'User_Profile'
+    
+    def get_absolute_url(self):
+        return reverse("user:detail", args=(self.id))
     
 
 class Experience(models.Model):
