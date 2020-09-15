@@ -22,7 +22,7 @@
         <div v-if = "experienceMatches.length">
             <ul>
                 <li v-for="profile in experienceMatches">
-                   <a href="{% url 'user:detail' profile.pk %}"> <h3>[[profile.username.username]]</h3> </a>
+                   <a :href="`/user/user/${profile.username.id}/`"> <h3>[[profile.username.username]]</h3> </a>
                     
                 </li>
             </ul> 
@@ -31,7 +31,7 @@
          <div v-if = "skillMatches.length">
             <ul v-for = "match in skillMatches">
                 <li v-for="profile in match.username">
-                    <h3>[[profile.username]]</h3>
+                    <a :href="`/user/user/${profile.id}/`"><h3>[[profile.username]]</h3></a>
                     
                 </li>
             </ul> 
@@ -40,7 +40,7 @@
          <div v-if = "userMatches.length">
             <ul>
                 <li v-for="profile in userMatches">
-                    <h3>[[profile.username]]</h3>
+                    <a :href="`/user/user/${profile.id}/`"><h3>[[profile.username]]</h3></a>
                     
                 </li>
             </ul> 
