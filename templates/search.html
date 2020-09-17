@@ -6,46 +6,57 @@
 {% block content %}
 
     <div id="app">
-        <div class= "searchbar">
-            <select v-model="searchCategory">
-                <option value="" selected>Please select...</option>
-                <option value="userprofiles">Hometown</option>
-                <option value="learnskills">Skills to Learn</option>
-                <option value="teachskills">Skills to Teach</option>
-                <option value="experiences">Resume</option>
-            </select>
-            <input type="text" v-model = "searchData">
-            <button @click= "searchUsers">Search</button>
+        <div id="search">
+            <div id= "searchbar">
+                <select v-model="searchCategory">
+                    <option value="" selected>Please select...</option>
+                    <option value="userprofiles">Hometown</option>
+                    <option value="learnskills">Skills to Learn</option>
+                    <option value="teachskills">Skills to Teach</option>
+                    <option value="experiences">Experience</option>
+                </select>
+                <input type="text" v-model = "searchData">
+                <button @click= "searchUsers">Search</button>
 
+            </div>
+
+            <div id="search-results">
+
+                <div v-if = "userMatches.length">
+                    <ul>
+                        <li v-for="profile in userMatches">
+                            <img :src="profile.profile_pic"><a :href="`/user/user/${profile.id}/`"><h3>[[profile.username]]</h3></a>
+                            
+                        </li>
+                    </ul> 
+                </div>
+
+                <div v-if = "skillMatches.length">
+                    <ul v-for = "match in skillMatches">
+                        <li v-for="profile in match.username">
+                            <img :src="profile.profile_pic">
+                            <a :href="`/user/user/${profile.id}/`"><h3>[[profile.username]]</h3></a>
+                            
+                        </li>
+                    </ul> 
+                </div>
+
+                <div v-if = "experienceMatches.length">
+                    <ul>
+                        <li v-for="profile in experienceMatches">
+                            <img :src="profile.username.profile_pic">
+                            <a :href="`/user/user/${profile.username.id}/`"> <h3>[[profile.username.username]]</h3> </a>
+                            
+                        </li>
+                    </ul> 
+                </div>
+
+                
+            </div>
+
+            
         </div>
-
-        <div v-if = "experienceMatches.length">
-            <ul>
-                <li v-for="profile in experienceMatches">
-                   <a :href="`/user/user/${profile.username.id}/`"> <h3>[[profile.username.username]]</h3> </a>
-                    
-                </li>
-            </ul> 
-        </div>
-
-         <div v-if = "skillMatches.length">
-            <ul v-for = "match in skillMatches">
-                <li v-for="profile in match.username">
-                    <a :href="`/user/user/${profile.id}/`"><h3>[[profile.username]]</h3></a>
-                    
-                </li>
-            </ul> 
-        </div>
-
-         <div v-if = "userMatches.length">
-            <ul>
-                <li v-for="profile in userMatches">
-                    <a :href="`/user/user/${profile.id}/`"><h3>[[profile.username]]</h3></a>
-                    
-                </li>
-            </ul> 
-        </div>
-
+        
     </div>
     <script>
         let vm = new Vue({

@@ -11,7 +11,7 @@ from user import models
 class NestedUserProfileSerializer(serializers.ModelSerializer):
     class Meta:        
         model = models.UserProfile
-        fields = ['id', 'username']
+        fields = ['id', 'username', 'profile_pic']
 
 class ExperienceSerializer(serializers.ModelSerializer):
     username = NestedUserProfileSerializer(read_only=True, source = 'author')

@@ -21,7 +21,7 @@
             <h1>Swap Them Skills</h1>
             
             <h3> <a href="/user/profile/">My Profile </a> | 
-            <a href=""> Home </a> | 
+            <a href="/"> Home </a> | 
             <a href="/user/search/"> Search </a> | 
             {% if user.is_authenticated %}
                 <a href="{% url 'logout' %}">Logout</a>
@@ -35,7 +35,7 @@
         </header>
 
         {% csrf_token %}
-        <div>
+        <div id="block">
             {% block content %}
             {% endblock content %}
         </div>
