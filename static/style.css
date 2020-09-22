@@ -91,7 +91,7 @@ header a {
 #profile {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     margin: 10px;
     padding: 10px;
     background-color: #E1EAEF;
@@ -173,7 +173,7 @@ header a {
 
 #search-results {
     display: flex;
-    justify-content: flex-start;
+    align-content: center;
 }
 
 #search-results ul {
@@ -185,7 +185,8 @@ header a {
 #skill-matches {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row-reverse;
+    align-content: center;
+    
 }
 
 
@@ -203,6 +204,20 @@ header a {
     height: 200px;
     padding: 5px;
     border-radius: 20px;
+    
+}
+
+#container {
+    display: flex;
+    justify-content: center;
+}
+
+#signup {
+    background-color: #E1EAEF;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 20px;
+    box-shadow: 5px 5px rgba(0,0,0,0.3);
     
 }
 
@@ -242,6 +257,10 @@ header a {
     #new-skill {
         display: flex;
         align-self: flex-end;
+    }
+
+    #signup {
+        max-width: 50%;
     }
     
 }

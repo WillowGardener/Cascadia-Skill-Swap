@@ -32,8 +32,8 @@
                 </div>
 
                 <div id="skill-matches" v-if = "skillMatches.length">
-                    <ul v-for = "match in skillMatches">
-                        <li v-for="profile in match.username">
+                    <ul id="skill-matches" v-for = "match in skillMatches">
+                        <li id="skill-matches" v-for="profile in match.username">
                             <img :src="profile.profile_pic">
                             <a :href="`/user/user/${profile.id}/`"><h3>[[profile.username]]</h3></a>
                             
